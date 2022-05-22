@@ -1,0 +1,97 @@
+h2
+{
+    font-size: 16px;
+}
+
+.article-container
+{
+    margin-bottom: 50px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid #e0dfdf;
+}
+
+.article-title
+{
+   font-weight: bold;
+   font-size: 18px;
+   color: #ff9800;
+   margin-bottom: 5px;
+}
+
+.article-date
+{
+    margin-bottom: 15px;
+    color: #969696;
+}
+
+.article-content
+{
+    margin-bottom: 25px;
+	margin-left: 5px;
+}
+
+.commentaires-block
+{
+	
+}
+
+.commentaire-container
+{
+	margin-left: 5px;
+}
+
+.commentaire-pseudo
+{
+    color: #ff9800;
+    margin-bottom: 5px;
+}
+
+.commentaire-content
+{ 
+    margin-bottom: 15px;
+    background: #ffead1;
+    padding: 10px;
+}
+
+.commentaire-form
+{
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    margin-bottom: 20px;
+	margin-left: 5px;
+}
+
+.commentaire-name
+{
+    height: 25px;
+}
+
+.commentaire-textarea
+{
+    margin: 15px 0;
+    resize:none;
+   
+    min-height: 100px;
+}
+
+.commentaire-name, .commentaire-textarea
+{
+    padding: 5px;
+    border: 1px solid #e0dfdf;
+    font-family: Arial;
+}
+
+.commentaire-name::placeholder, .commentaire-textarea::placeholder
+{
+    color: #c6c6c6;
+    font-style: italic;
+    font-size: 14px;
+}
+
+.commentaire-submit
+{
+    width: 80px;
+    align-self: flex-end;
+}
+
