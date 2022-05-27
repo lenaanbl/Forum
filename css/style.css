@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap');
+
+
+
+*{
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+body{
+    background-image: url(../images/white_wallpaper.png);
+    background-position: center;
+    
+}
+
+h2{
+    text-align: center;
+}
+
+h3{
+    text-align: center;
+}
+
+.logo-img{
+    width: 300px;
+    justify-content: center;
+}
+
+.hello{
+    width: 220px;
+    justify-content: center;
+}
+
+.panel-body{
+    text-align: center;
+}
+

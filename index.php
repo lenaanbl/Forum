@@ -1,73 +1,77 @@
-<?php
+<?php 
+	header('Content-Type: text/html;Charset=UTF8');
+	session_start();
+	// Inclusion des "model" -> fichiers backend
+	include_once('model/operations.php');
+	include_once('model/sessionUser.php');
+	include_once('model/optimization.php');
+	include_once('model/requestUser.php');
+	
 
-	include_once("include/header.php");
-?>
+	/**
+	 * On prend le parametre dans l'url qui va déterminer quelle page on regarde
+	 * J'ai créer un nouveau fichier le request Manager
+	 */
+	$page = getPageName();
 
-	<link rel="stylesheet" type="text/css" href="css/index.css" media="all"/>
+	switch( $page ) {
+		case 'login':
+			sessionControlOffline();
+			$error = getErrorsForm();
+			include_once('view/login.php');
+			break;
+		case 'signup':
+			sessionControlOffline();
+			$error = getErrorsForm();
+			$success = getSuccessFromGETRequest();
+			include_once('view/signup.php');
+			break;
+		case 'acceuil':
+			sessionControlOnline();
+			$success = getSuccessForm();//en provenance du service serviceNewPost
+            $categories = getCategories();
+            $categorySelected = getCategorySelected();
+            if(!empty($categorySelected)){
+                $posts = getPostByCateg($categorySelected);
+            }else{
+			    $posts = getAllPosts();
+            }
+			include_once('view/accueil.php');
+			break;
+		case 'newPost':
+			sessionControlOnline();
+			$error = getErrorsForm();
+			$myid = getMyId();
+			$categories = getCategories();
+			include_once('view/newPost.php');
+			break;
+		case 'viewPost':
+			sessionControlOnline();
+			$error = getErrorsForm();
+			$success = getSuccessForm();
+			$myid = getMyId();
+			$postid = getPostIdFromGETRequest();
+			$post = getPostById($postid);
 
-
-    <div class="page-container">
-        
-        <div class="page-content">
-
-<?php
-
-    include_once("DAO/CommentaireDAO.php");
-    include_once("DAO/ArticleDAO.php");
-        
-
-    $tabArticles = ArticleDAO::getArticles();
-
-    foreach($tabArticles as $article)
-    {
-        $dateArticle = new DateTime($article->getDateParution());
-        
-        $tabComments = ArticleDAO::getCommentairesByIdArticle($article->getIdArticle());
-        
-?>        
-            <div class='article-container'>
-            
-                <div class='article-title'><?php echo $article->getTitre(); ?></div>
-                <div class='article-date'>Publié le <?php echo $dateArticle->format('d/m/Y'); ?></div>
-                <div class='article-content'><?php echo $article->getContent(); ?> </div>
-
-                <div class='commentaires-block'>    
-                    <h2>Réagissez</h2>
-
-                    <form class="commentaire-form" method="POST" action="insertComment.php">
-                        <input type="hidden" name="idArticle" value="<?php echo $article->getIdArticle(); ?>">
-                        <input class="commentaire-name" type="text" name="pseudo" placeholder="Votre pseudonyme">
-                        <textarea class="commentaire-textarea" name="content" placeholder="Votre commentaire"></textarea>
-                        <input class="blog-button commentaire-submit" type="submit" value="Publier"/>
-                    </form>
-                    <h2>Commentaires (<?php echo sizeof($tabComments); ?>)</h2>
-                    
-<?php     
-        foreach($tabComments as $comment)
-        {
-            $dateComment = new DateTime($comment->getDateParution());
-?>         
-                    
-                    <div class='commentaire-container'>
-                        <div class='commentaire-pseudo'>Par <?php echo $comment->getPseudo(); ?> le <?php echo $dateComment->format('d/m/Y'); ?> à <?php echo $dateComment->format('H:i:s'); ?></div>
-                        <div class='commentaire-content'><?php echo $comment->getContent(); ?></div>
-                    </div>
-<?php
-            
-        }
-        
-?>
-                </div>
-             </div>
-<?php
-        
-    }
-
-?>
-        </div>
-    </div>
-
-<?php	
-        
-	include_once("include/footer.php");
-?>
+			$comments = getAllCommentsByPostId($postid);
+			include_once('view/viewPost.php');
+			break;
+		case 'ban':
+			include_once('view/listban.php');
+			break;
+		case 'deconnexion':
+			sessionDestroy();
+			break;
+		case 'profile':
+			sessionControlOnline();
+			$error = getErrorsForm();
+			$myid = getMyId();
+			$categories = getCategories();
+			include_once('view/profile.php');
+			break;
+		case 'change_pass':
+			sessionControlOnline();
+			$error = getErrorsForm();
+			$myid = getMyId();
+			include_once('view/change_pass.php');
+}
